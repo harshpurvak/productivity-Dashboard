@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productivity Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="top-bar">
+      <label class="theme-switch">
+        <span>Dark mode</span>
+        <input type="checkbox" id="themeToggle">
+      </label>
+    </header>
+
+    <section class="welcome-tab" aria-label="Welcome, date, and weather">
+      <div class="welcome-copy">
+        <p class="eyebrow">Daily workspace</p>
+        <h1>Welcome</h1>
+        <!-- <p class="welcome-subtitle">Productivity Dashboard</p> -->
+      </div>
+
+      <div class="status-row">
+        <article class="info-panel clock-panel">
+          <p class="panel-label">Today</p>
+          <h2 id="dateText">Loading date</h2>
+          <p id="timeText">Loading time</p>
+        </article>
+
+        <article class="info-panel weather-panel">
+          <div>
+            <p class="panel-label">Weather</p>
+            <h2 id="weatherLocation">Checking location</h2>
+          </div>
+          <p id="weatherDetails">Loading weather...</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="dashboard-quote" aria-label="Random motivation quote">
+      <p class="eyebrow">Today's spark</p>
+      <blockquote id="dashboardQuoteText">Loading quote...</blockquote>
+      <p id="dashboardQuoteAuthor" class="quote-author"></p>
+    </section>
+
+    <section id="dashboardView" class="dashboard-view" aria-label="Productivity tools">
+      <nav class="feature-dock" aria-label="Open productivity app">
+        <button class="feature-icon-button" data-feature="todo" type="button" aria-label="Open todo list">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"></path>
+          </svg>
+          <span class="dock-label">Todo</span>
+        </button>
+        <button class="feature-icon-button" data-feature="planner" type="button" aria-label="Open daily planner">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 2v4M16 2v4M3 9h18M5 4h14a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path>
+          </svg>
+          <span class="dock-label">Planner</span>
+        </button>
+        <button class="feature-icon-button" data-feature="goals" type="button" aria-label="Open daily goals">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 21a9 9 0 1 0-9-9 9 9 0 0 0 9 9zM12 17a5 5 0 1 0-5-5 5 5 0 0 0 5 5zM12 13l6-6"></path>
+          </svg>
+          <span class="dock-label">Goals</span>
+        </button>
+        <button class="feature-icon-button" data-feature="pomodoro" type="button" aria-label="Open pomodoro timer">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 14v-4M9 2h6M12 22a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM18 5l2-2"></path>
+          </svg>
+          <span class="dock-label">Timer</span>
+        </button>
+        <button class="feature-icon-button" data-feature="quote" type="button" aria-label="Open motivational quote">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 17h3l2-8H6l-2 8h3zM17 17h3l2-8h-6l-2 8h3z"></path>
+          </svg>
+          <span class="dock-label">Quote</span>
+        </button>
+      </nav>
+    </section>
+
+    <section id="featureView" class="feature-view hidden" role="dialog" aria-modal="true" aria-label="Productivity app">
+      <div class="modal-window">
+        <button id="backButton" class="back-button" type="button" aria-label="Close app">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 6 6 18M6 6l12 12"></path>
+          </svg>
+        </button>
+
+      <article class="feature-panel hidden" id="todoFeature" data-title="Todo List">
+        <div class="feature-heading">
+          <p class="eyebrow">Task manager</p>
+          <h2>Todo List</h2>
+        </div>
+        <form id="todoForm" class="entry-form">
+          <input id="todoInput" type="text" placeholder="Add a task" autocomplete="off">
+          <button type="submit">Add Task</button>
+        </form>
+        <ul id="todoList" class="item-list"></ul>
+      </article>
+
+      <article class="feature-panel hidden" id="plannerFeature" data-title="Daily Planner">
+        <div class="feature-heading">
+          <p class="eyebrow">Plan your day</p>
+          <h2>Daily Planner</h2>
+        </div>
+        <div id="plannerSlots" class="planner-list"></div>
+      </article>
+
+      <article class="feature-panel hidden" id="goalsFeature" data-title="Daily Goals">
+        <div class="feature-heading">
+          <p class="eyebrow">Short-term focus</p>
+          <h2>Daily Goals</h2>
+        </div>
+        <form id="goalForm" class="entry-form">
+          <input id="goalInput" type="text" placeholder="Add a goal" autocomplete="off">
+          <button type="submit">Add Goal</button>
+        </form>
+        <p id="goalProgress" class="progress-text">0 of 0 completed</p>
+        <ul id="goalList" class="item-list"></ul>
+      </article>
+
+      <article class="feature-panel hidden" id="pomodoroFeature" data-title="Pomodoro Timer">
+        <div class="feature-heading">
+          <p class="eyebrow">Focus session</p>
+          <h2>Pomodoro Timer</h2>
+        </div>
+        <div class="timer-box">
+          <p id="timerLabel">Work Session</p>
+          <strong id="timerDisplay">25:00</strong>
+          <p id="timerMessage">Ready when you are.</p>
+        </div>
+        <div class="timer-actions">
+          <button id="startTimer" type="button">Start</button>
+          <button id="pauseTimer" type="button">Pause</button>
+          <button id="resetTimer" type="button">Reset</button>
+        </div>
+      </article>
+
+      <article class="feature-panel hidden" id="quoteFeature" data-title="Quote">
+        <div class="feature-heading">
+          <p class="eyebrow">Motivation</p>
+          <h2>Quote</h2>
+        </div>
+        <blockquote id="quoteText">Click the button to load a motivational quote.</blockquote>
+        <p id="quoteAuthor" class="quote-author"></p>
+        <button id="newQuoteButton" type="button">New Quote</button>
+      </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

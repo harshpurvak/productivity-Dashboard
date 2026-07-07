@@ -246,18 +246,84 @@ body.dark-theme .feature-panel {
   font-weight: 700;
 }
 
-#weatherDetails {
+.weather-details {
   margin-bottom: 0;
   color: #5d6b70;
   line-height: 1.5;
 }
 
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.weather-metric {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+}
+
+.weather-icon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid rgba(89, 105, 105, 0.24);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.36);
+  color: #162529;
+}
+
+.weather-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.weather-label,
+.weather-value {
+  display: block;
+}
+
+.weather-label {
+  color: #6f7f82;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.weather-value {
+  color: #1f3034;
+  font-weight: 700;
+}
+
 body.dark-theme #timeText,
-body.dark-theme #weatherDetails,
+body.dark-theme .weather-details,
 body.dark-theme .progress-text,
 body.dark-theme .timer-box p,
 body.dark-theme .quote-author {
   color: #b6c2c0;
+}
+
+body.dark-theme .weather-icon {
+  border-color: rgba(243, 247, 246, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: #f4f7f6;
+}
+
+body.dark-theme .weather-label {
+  color: #95a6a5;
+}
+
+body.dark-theme .weather-value {
+  color: #f4f7f6;
 }
 
 .section-heading {
@@ -650,6 +716,10 @@ body.dark-theme blockquote {
   .feature-icon-button svg {
     width: 24px;
     height: 24px;
+  }
+
+  .weather-grid {
+    grid-template-columns: 1fr;
   }
 
   .dock-label {

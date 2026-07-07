@@ -470,7 +470,71 @@ function renderWeather(data, fallbackLabel) {
   const cityName = data.name || fallbackLabel;
 
   location.textContent = cityName;
-  details.textContent = temperature + " C, " + toTitleCase(condition) + ", humidity " + humidity + "%, wind " + windSpeed + " km/h";
+  details.textContent = "";
+  details.appendChild(createWeatherGrid([
+    {
+      icon: "temperature",
+      label: "Temp",
+      value: temperature + " C"
+    },
+    {
+      icon: "condition",
+      label: "Sky",
+      value: toTitleCase(condition)
+    },
+    {
+      icon: "humidity",
+      label: "Humidity",
+      value: humidity + "%"
+    },
+    {
+      icon: "wind",
+      label: "Wind",
+      value: windSpeed + " km/h"
+    }
+  ]));
+}
+
+function createWeatherGrid(items) {
+  const grid = document.createElement("div");
+  grid.className = "weather-grid";
+
+  items.forEach(function(item) {
+    const metric = document.createElement("div");
+    const icon = document.createElement("span");
+    const text = document.createElement("span");
+    const label = document.createElement("span");
+    const value = document.createElement("span");
+
+    metric.className = "weather-metric";
+    icon.className = "weather-icon";
+    icon.innerHTML = getWeatherIcon(item.icon);
+    text.className = "weather-text";
+    label.className = "weather-label";
+    value.className = "weather-value";
+
+    label.textContent = item.label;
+    value.textContent = item.value;
+
+    text.appendChild(label);
+    text.appendChild(value);
+    metric.appendChild(icon);
+    metric.appendChild(text);
+    grid.appendChild(metric);
+  });
+
+  return grid;
+}
+
+function getWeatherIcon(type) {
+  const icons = {
+    temperature: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 14.76V5a4 4 0 0 0-8 0v9.76a6 6 0 1 0 8 0Z"></path><path d="M10 9v8"></path></svg>',
+    condition: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 18H8a5 5 0 1 1 1.07-9.88A7 7 0 0 1 22 11.5 4.5 4.5 0 0 1 17.5 18Z"></path></svg>',
+    humidity: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3s6 6.18 6 11a6 6 0 0 1-12 0c0-4.82 6-11 6-11Z"></path></svg>',
+    wind: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h11a3 3 0 1 0-3-3"></path><path d="M3 12h16"></path><path d="M3 16h11a3 3 0 1 1-3 3"></path></svg>'
+  };
+
+  return icons[type] || icons.condition;
 }
 
 function getWeatherErrorMessage(data, status) {

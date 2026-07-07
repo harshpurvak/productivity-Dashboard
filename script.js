@@ -405,9 +405,6 @@ async function loadQuote() {
   }
 }
 
-const openWeatherApiKey = window.APP_CONFIG && window.APP_CONFIG.OPENWEATHER_API_KEY
-  ? window.APP_CONFIG.OPENWEATHER_API_KEY
-  : "";
 const defaultWeatherLocation = {
   latitude: 28.6139,
   longitude: 77.209,
@@ -446,17 +443,13 @@ async function getWeatherCoordinates() {
 }
 
 async function fetchWeather(latitude, longitude) {
-  if (!openWeatherApiKey) {
-    throw new Error("Add your OpenWeather API key in config.js.");
-  }
-
   const params = new URLSearchParams({
     lat: latitude,
     lon: longitude,
-    appid: openWeatherApiKey,
     units: "metric"
   });
-  const url = "https://api.openweathermap.org/data/2.5/weather?" + params.toString();
+
+  const url = "/api/weather?" + params.toString();
   const response = await fetch(url);
   const data = await response.json();
 

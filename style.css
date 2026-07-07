@@ -180,6 +180,7 @@ body.dark-theme .welcome-subtitle {
 .status-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: stretch;
 }
 
 .dashboard-quote {
@@ -231,6 +232,11 @@ body.dark-theme .feature-panel {
 .info-panel {
   min-height: 140px;
   padding: 22px;
+}
+
+.clock-panel,
+.weather-panel {
+  height: 100%;
 }
 
 .clock-panel h2,

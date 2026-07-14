@@ -366,43 +366,57 @@ const fallbackQuotes = [
   }
 ];
 
-document.getElementById("newQuoteButton").addEventListener("click", loadQuote);
+const newQuoteButton = document.getElementById("newQuoteButton");
+let currentQuoteIndex = -1;
 
-function getRandomQuote() {
-  const randomIndex = Math.floor(Math.random() * fallbackQuotes.length);
-  return fallbackQuotes[randomIndex];
+newQuoteButton.addEventListener("click", loadQuote);
+
+function getRandomQuote(previousIndex) {
+  if (fallbackQuotes.length === 1) {
+    return {
+      quote: fallbackQuotes[0],
+      index: 0
+    };
+  }
+
+  let randomIndex = Math.floor(Math.random() * fallbackQuotes.length);
+
+  while (randomIndex === previousIndex) {
+    randomIndex = Math.floor(Math.random() * fallbackQuotes.length);
+  }
+
+  return {
+    quote: fallbackQuotes[randomIndex],
+    index: randomIndex
+  };
 }
 
-function loadDashboardQuote() {
+function renderDashboardQuote(quote) {
   const quoteText = document.getElementById("dashboardQuoteText");
   const quoteAuthor = document.getElementById("dashboardQuoteAuthor");
 
   if (!quoteText || !quoteAuthor) return;
 
-  const quote = getRandomQuote();
   quoteText.textContent = quote.content;
   quoteAuthor.textContent = "- " + quote.author;
 }
 
-async function loadQuote() {
+function loadQuote() {
+  const result = getRandomQuote(currentQuoteIndex);
+  currentQuoteIndex = result.index;
+
+  renderFeatureQuote(result.quote);
+  renderDashboardQuote(result.quote);
+}
+
+function renderFeatureQuote(quote) {
   const quoteText = document.getElementById("quoteText");
   const quoteAuthor = document.getElementById("quoteAuthor");
 
-  quoteText.textContent = "Loading quote...";
-  quoteAuthor.textContent = "";
+  if (!quoteText || !quoteAuthor) return;
 
-  try {
-    const response = await fetch("https://api.quotable.io/random");
-    const data = await response.json();
-
-    quoteText.textContent = data.content;
-    quoteAuthor.textContent = "- " + data.author;
-  } catch (error) {
-    const quote = getRandomQuote();
-
-    quoteText.textContent = quote.content;
-    quoteAuthor.textContent = "- " + quote.author;
-  }
+  quoteText.textContent = quote.content;
+  quoteAuthor.textContent = "- " + quote.author;
 }
 
 const defaultWeatherLocation = {
@@ -573,5 +587,5 @@ renderTodos();
 renderPlanner();
 renderGoals();
 renderTimer();
-loadDashboardQuote();
+loadQuote();
 loadWeather();
